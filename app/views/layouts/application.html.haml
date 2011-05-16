@@ -3,29 +3,70 @@
 	%head
 		%title Rails DJ
 		= stylesheet_link_tag :all
-		= javascript_include_tag :defaults
+		= css3buttons_stylesheets :include_reset => false
+		= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js", "rails", "jquery.li-scroller.1.0", "application"
 		= csrf_meta_tag
 		%meta{:name => "author", :content => "Jeroen Hammann, Daniël Zwijnenburg"}
 	%body
-		- if current_user
-			%h1{:style => "color:red;"}
-				Now playing:
-				= @now_playing[0] ? @now_playing[0].title : "Nothing, do something about it!!!"
-			%ul
-				%li= link_to "Play", :play, :remote => true
-				%li= link_to "Stop", :stop, :remote => true
-				%li= link_to "Pause", :pause, :remote => true
-			%h1 Queue
-			- if @songs.any?
-				%ul
-					- @songs.each do |song|
-						%li= "#{song.title? ? song.title : song.id} || Vote count:  #{song.current_votes.count}"
-			- else
-				No songs in Queue, that's a bad thing right?
-			%hr/
-			Menu ofzo
-			%ul
-				%li= link_to "Artists", artists_path
-				%li= link_to "Albums", albums_path
-				%li= link_to "Songs", songs_path
-		=yield
+		#main
+			#wrapper
+				#header
+				#content
+					- if current_user
+						#nowPlaying
+							=@now_playing.any? ? @now_playing[0].artist.name : "N/A"
+							%br
+							= @now_playing[0] ? @now_playing[0].title : "N/A"
+							= "-"
+							= @now_playing[0] ? @now_playing[0].album.name : "N/A"
+							%br
+							- if current_user.email == "daniel@danielz.nl"
+								= link_to image_tag("play.png"), :play, :remote => true
+								= link_to image_tag("stop.png"), :stop, :remote => true
+								= link_to image_tag("pause.png"), :pause, :remote => true
+						#playlist
+							%h1 Afspeellijst
+							- if @songs.any?
+								%table.trackList
+									%tr
+										%th Stemmen
+										%th Artiest
+										%th Naam
+										%th Album
+										%th Controlls
+									- @songs.each do |song|
+										%tr{:class => "#{cycle("odd", "even")}"}
+											%td= "#{song.current_votes.count} x"
+											%td=link_to song.artist.name, song.artist
+											%td= song.title
+											%td= song.album.name
+											%td= link_to "+", add_path(song.id)
+							- else
+								Er staan nog geen tracks in de afspeellijst, voeg ze toe!
+						Menu ofzo
+						%ul
+							%li= link_to "Artists", artists_path
+							%li= link_to "Albums", albums_path
+							%li= link_to "Songs", songs_path
+					=yield
+			#userDrawer
+				- @users.each do |user|
+					.user
+						.userImage
+							.lensFlare
+							.avatar{:style => "background:url('#{user.avatar.url(:thumb)}');"}
+						.userInfo
+							%p
+								=user.name
+								%br
+								Status: online
+								= image_tag "online.png"
+						%h4 Favorite artists:
+						%ol
+							- user.favorite_artists.each do |artist|
+								%li= artist.name
+
+						%h4 Favorite tunes:
+						%ol
+							- user.favorite_tunes.each do |tune|
+								%li=link_to (tune.title? ? tune.title : tune.id), add_path(tune.id)

@@ -7,8 +7,18 @@ class ApplicationController < ActionController::Base
   before_filter :require_user
 
   def index
-    @users = User.all
-    @artists = Artist.limit(50)
+  end
+
+  def search
+    if params[:q].present?
+      @songs = Song.where("title LIKE ?", "%#{params[:q]}%")
+      @artists = Artist.where("name LIKE ?", "%#{params[:q]}%")
+      @albums = Album.where("name LIKE ?", "%#{params[:q]}%")
+    end
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def play
@@ -36,6 +46,7 @@ private
   def set_vars
     @songs = Song.queue.all
     @now_playing = Song.where(:now_playing => true)
+    @users = User.online
   end
 
   def check_setup

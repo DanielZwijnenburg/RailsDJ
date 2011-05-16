@@ -1,0 +1,9 @@
+- if params[:q].present?
+	%h1 Songs
+	%ul= render @songs
+
+	%h1 Artists
+	%ul= render @artists
+
+	%h1 Albums
+	= render @albums

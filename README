@@ -1,10 +1,19 @@
-== RailsDJ
+# RailsDJ
 
 Rails DJ is based on the gem "play", the guys who created that gem are awesome so credits
 to them! This Rails application was created with the same idea in mind but with more options! Enjoi it!
 
-== Getting Started
+# Getting Started
 
+Checkout
 
-==Todo
+rake db:create:all && rake db:migrate && rails s
+
+Follow the instructions
+
+#Todo
+Add tests (it was a fun quick project ;))
+
 Add explanation etc.
+
+Style this Readme

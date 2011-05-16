@@ -1,0 +1,6 @@
+- if params[:q].present?
+	:plain
+		$("#search_results").html("");
+		$("#search_results").append("<h1>Songs</h1><ul>#{escape_javascript(render(@songs))}</ul>");
+		$("#search_results").append("<h1>Artists</h1><ul>#{escape_javascript(render(@artists))}</ul>");
+		$("#search_results").append("<h1>Albums</h1>#{escape_javascript(render(@albums))}");

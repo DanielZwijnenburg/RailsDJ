@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110514133847) do
+ActiveRecord::Schema.define(:version => 20110516124503) do
 
   create_table "albums", :force => true do |t|
     t.string   "name"
@@ -24,11 +24,15 @@ ActiveRecord::Schema.define(:version => 20110514133847) do
     t.datetime "art_updated_at"
   end
 
+  add_index "albums", ["name"], :name => "index_albums_on_name"
+
   create_table "artists", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "artists", ["name"], :name => "index_artists_on_name"
 
   create_table "genres", :force => true do |t|
     t.string   "title"
@@ -62,6 +66,8 @@ ActiveRecord::Schema.define(:version => 20110514133847) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "songs", ["title"], :name => "index_songs_on_title"
 
   create_table "users", :force => true do |t|
     t.string   "name"

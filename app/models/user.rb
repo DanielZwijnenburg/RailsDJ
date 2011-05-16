@@ -12,11 +12,12 @@ class User < ActiveRecord::Base
             :length => {:minimum => 3, :maximum => 254},
             :uniqueness => true,
             :format => {:with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i}
-
-  has_attached_file :avatar, :styles => { :thumb => "100x100>", :medium => "150x150>" }
+  validates_attachment_presence :avatar
+  has_attached_file :avatar, :styles => { :thumb => "70x70#", :medium => "150x150>" }
 
   before_save :encrypt_password
 
+  scope :online, where(:online => true)
 
   def vote_for(song)
     votes.create(:song => song, :artist => song.artist)

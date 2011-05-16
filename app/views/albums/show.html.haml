@@ -1,0 +1,7 @@
+%hr/
+%h2
+	= @album.try(:artist).try(:name) + " "
+	= @album.try(:name)
+= image_tag @album.art.url(:thumb)
+- @album.songs.each do |song|
+	=link_to song.title, add_path(song)

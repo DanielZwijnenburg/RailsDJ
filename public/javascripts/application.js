@@ -1,2 +1,10 @@
-// Place your application-specific JavaScript functions and classes here
-// This file is automatically included by javascript_include_tag :defaults
+$(function(){
+  var type_timer;
+  $("#search_form").keyup(function(){
+    var search = $(this).val();
+    clearTimeout(type_timer);
+    type_timer = setTimeout(function(){
+      $.ajax({ url: "/search", dataType: "script", data: "q="+search });
+    }, 500);
+  });
+});

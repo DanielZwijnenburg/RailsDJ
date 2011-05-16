@@ -1,0 +1,39 @@
+/* This application is for 45north use only and for that reason the style is unconventional, ugly and shouldn't be copied by anyone. */
+
+@import url("cssreset.css");
+
+body {font-family:"Myriad Pro", Helvetica, Arial, Sans-Serif; font-size:12px; color:#000; background:#1594be; line-height:1.2;}
+h1, h2, h3, p {margin:0 0 10px 0;}
+h1 {font-size:20px;}
+
+
+h2 {font-size:18px;}
+h3 {font-size:16px;}
+h4 {font-size:14px;}
+a {text-decoration:none; color:#000;}
+a:hover {color:#3d45a4;}
+
+div#main {width:965px; position:absolute; margin:0 0 0 -575px; left:59%;}
+
+div#wrapper {width:650px; margin:20px 0 20px 0; left:0; position:absolute; z-index:2;}
+div#wrapper div#content {-webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px; border:#0C5270 solid 5px; background:#eee; padding:20px; min-height:600px;}
+div#wrapper div#content ul.trackList li.track {margin:0 0 5px 0; display:block;}
+div#wrapper div#content table.trackList th {text-align:left; padding:0 10px 0 0;}
+div#wrapper div#content table.trackList td {padding:0 10px 0 0;}
+div#wrapper div#content table.trackList tr.even {background:#F8F8F8;}
+div#wrapper div#content div#nowPlaying {width:480px; height:50px; padding:5px 10px; background:#fff; margin:0 auto 10px auto; -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px; background:url('/images/nowPlayingBg.jpg'); -webkit-box-shadow:inset 0 0 4px #0C5270; -moz-box-shadow:inset 0 0 4px #0C5270; box-shadow:inset 0 0 4px #0C5270; text-align:center; line-height:1.5;}
+div#wrapper div#content div.album {margin:0 0 5px 0; border-bottom:1px solid #C1C1C1;}
+div#wrapper div#content div.album h3 {margin:0 0 5px 0;}
+div#wrapper div#content div.album ol {margin:0 0 5px 20px; list-style-type:decimal;}
+div#wrapper div#content div.album ol li {padding:0 15px 0 0;}
+div#wrapper div#content div#playlist {border-bottom:1px solid #C1C1C1; padding:0 0 5px 0; margin:0 0 5px 0;}
+
+div#userDrawer {width:300px; position:absolute; right:0; height:auto; margin:40px 0 0 0; z-index:1; border:#0C5270 solid 5px; background:url('/images/userDrawerBg.jpg') repeat-y #DFDFDF; padding:5px; -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;}
+div#userDrawer ol {list-style-type:decimal; padding:0 0 0 15px; margin:0 0 5px 0;}
+div#userDrawer div.user {border-bottom:1px solid #C1C1C1; margin:0 0 5px 0;}
+div#userDrawer div.user div.userImage {width:70px; height:70px; float:left; margin:0 5px 5px 0;}
+div#userDrawer div.user div.userImage div.avatar {-webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px; width:70px; height:70px;}
+div#userDrawer div.user div.userImage div.lensFlare {background:url('/images/lensFlare.png'); width:70px; height:70px; z-index:2; border-radius:6px 6px 0 0; -moz-border-radius:6px 6px 0 0; -webkit-border-radius:6px 6px 0 0; position:absolute;}
+div#userDrawer div.user div.userInfo {height:70px; width:225px; text-transform:capitalize; float:left; padding:0 0 5px 0;}
+div#userDrawer div.user div.userInfo p {padding:20px 0 0 0;}
+div#userDrawer div.user div.userInfo img {vertical-align:text-bottom;}

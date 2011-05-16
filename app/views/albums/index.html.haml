@@ -1,2 +1,1 @@
-- @albums.each do |album|
-	=link_to (image_tag album.art.url(:thumb), :title => (album.artist.name? ? album.artist.name : album.artist.id)), album
+= render @albums

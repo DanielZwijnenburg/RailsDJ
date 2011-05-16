@@ -3,13 +3,14 @@ Djrails::Application.routes.draw do
   get "logout" => "sessions#destroy", :as => "logout"
   get "login" => "sessions#new", :as => "login"
   get "sign_up" => "users#new", :as => "sign_up"
+  get "search" => "application#search", :as => :search
 
   resources :songs, :artists, :albums, :users, :votes, :histories, :setups, :sessions
   get "/add/:id" => "queues#add", :as => "add"
-  get "/play" => "application#play", :as => "play"
-  get "/pause" => "application#pause", :as => "pause"
-  get "/stop" => "application#stop", :as => "stop"
-  get "/volume/:id" => "application#volume", :as => "volume"
+  get "/playwaawawawawaw" => "application#play", :as => "play"
+  get "/pausewaawawawawaw" => "application#pause", :as => "pause"
+  get "/stopwaawawawawaw" => "application#stop", :as => "stop"
+  get "/volumewaawawawawaw/:id" => "application#volume", :as => "volume"
   get "/artists" => "artists#index", :as => "artists"
   get "/albums" => "albums#index", :as => "albums"
   get "/songs" => "songs#index", :as => "songs"
