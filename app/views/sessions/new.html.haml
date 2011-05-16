@@ -1,0 +1,9 @@
+= link_to "Register", new_user_path, :class => "button button-gray"
+- flash.each do |name, msg|
+	= content_tag :div, msg, :class => "message notice"
+
+= form_tag sessions_path do
+	%p
+		= text_field_tag :email, params[:email], :value => "E-mail", :onfocus => "focusEmailField(this)", :onblur => "blurEmailField(this)",:style => "color: rgb(170, 170, 170);"
+		= password_field_tag :password, "Password", :onfocus => "focusPasswordField(this)", :onblur => "blurPasswordField(this)", :style => "color: rgb(170, 170, 170);"
+		= submit_tag "Login", :class => "button login"

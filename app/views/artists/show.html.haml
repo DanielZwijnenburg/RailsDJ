@@ -1,0 +1,7 @@
+%h2= @artist.name? ? @artist.name : @artist.id
+- @artist.albums.each do |album|
+	=image_tag album.art.url(:thumb)
+	=album.name
+	%ul
+		-album.songs.each do |song|
+			%li=link_to (song.title? ? song.title : song.id), add_path(song.id)

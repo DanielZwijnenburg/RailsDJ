@@ -1,0 +1,29 @@
+= form_for @user, :url => users_path, :html => {:multipart => true} do |f|
+	-if @user.errors.any?
+		.message.notice
+			-if @user.errors.any?
+				#errorExplanation
+				%h2
+					= pluralize(@user.errors.count, "error")
+					prohibited this record from being saved:
+				- @user.errors.full_messages.each do |msg|
+					= msg
+					%br/
+	%p
+		%table{:style => "width:400px;"}
+			%tr
+				%td= f.label :name
+				%td= f.text_field :name
+			%tr
+				%td= f.label :email
+				%td= f.text_field :email
+			%tr
+				%td= f.label :password
+				%td= f.password_field :password
+			%tr
+				%td= f.label :password_confirmation
+				%td= f.password_field :password_confirmation
+			%tr
+				%td= f.label :avatar
+				%td= f.file_field :avatar
+		= f.submit "Register"

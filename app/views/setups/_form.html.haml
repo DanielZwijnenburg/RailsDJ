@@ -1,0 +1,7 @@
+= form_for @setup do |f|
+	=f.label :path
+	%br/
+	%span{:style => "color:red;"} * Absoluut pad naar jouw muziek. example: "/Users/Daniel/Music/iTunes/iTunes Media/Music"
+	%br/
+	=f.text_field :path
+	= f.submit

@@ -1,0 +1,31 @@
+!!! Strict
+%html
+	%head
+		%title Rails DJ
+		= stylesheet_link_tag :all
+		= javascript_include_tag :defaults
+		= csrf_meta_tag
+		%meta{:name => "author", :content => "Jeroen Hammann, Daniël Zwijnenburg"}
+	%body
+		- if current_user
+			%h1{:style => "color:red;"}
+				Now playing:
+				= @now_playing[0] ? @now_playing[0].title : "Nothing, do something about it!!!"
+			%ul
+				%li= link_to "Play", :play, :remote => true
+				%li= link_to "Stop", :stop, :remote => true
+				%li= link_to "Pause", :pause, :remote => true
+			%h1 Queue
+			- if @songs.any?
+				%ul
+					- @songs.each do |song|
+						%li= "#{song.title? ? song.title : song.id} || Vote count:  #{song.current_votes.count}"
+			- else
+				No songs in Queue, that's a bad thing right?
+			%hr/
+			Menu ofzo
+			%ul
+				%li= link_to "Artists", artists_path
+				%li= link_to "Albums", albums_path
+				%li= link_to "Songs", songs_path
+		=yield

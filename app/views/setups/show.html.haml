@@ -1,0 +1,28 @@
+%h1 Step 2 - Verify collected data
+%h4
+	Found results in:
+	=@setup.path
+
+- if @results.any?
+	%h3{:style => "color:green;"}
+		Found:
+		= @results.count
+		results
+	%span{:style => "color:red;"}Notice! The importing of the songs (dont, worry only the paths) could take while, so sit back and relax after you pressed this button...
+	%br/
+	/ #todo ajaxifie this stuff and make it nice
+	=#link_to "PLAY THE MUSIC DJ!", setup_completed_path(@setup)
+
+	%a{:href => "/setups/completed/1", :onclick => "$('setupinfo').show();"}
+		PLAY THE MUSIC DJ!
+
+- else
+	%h3{:style => "color:red;"} No results please supply a new path
+	= render "form"
+
+
+#setupinfo{:style => "display:none; margin:50px;"}
+	=image_tag("ajax-loader.gif")
+	/ #todo add javascript action that provides feedback.
+
+	/ So poll the server for Song.all.count and compare it so @results.count then map this to a progress bar :)

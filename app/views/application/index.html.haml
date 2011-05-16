@@ -1,0 +1,24 @@
+%h1 hello little songsies
+%hr/
+- @users.each do |user|
+	=image_tag user.avatar.url(:thumb)
+	%h4 Favorite artists:
+	%ul
+		- user.favorite_artists.each do |artist|
+			%li= artist.name
+
+	%h4 Favorite tunes:
+	%ul
+		- user.favorite_tunes.each do |tune|
+			%li=link_to (tune.title? ? tune.title : tune.id), add_path(tune.id)
+%hr/
+
+- @artists.each do |artist|
+	%p
+		%h2= artist.name
+		- artist.albums.each do |album|
+			=image_tag album.art.url(:thumb)
+			%h3=album.name
+			%ul
+				-album.songs.each do |song|
+					%li=link_to (song.title? ? song.title : song.id), add_path(song.id)
