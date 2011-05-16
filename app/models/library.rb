@@ -6,7 +6,7 @@ class Library
 
   #deze checkt dus de resultaten
   def self.fs_songs
-    `find "#{Setup.first.path}" -type f ! -name '.*'`.split("\n")
+    `find "#{Setup.first.path}" -type f -name '*.mp3' || '*.aac' || '*.flac'`.split("\n")
   end
 
   # Imports an array of songs into the database.
@@ -25,7 +25,7 @@ class Library
     image = get_tag2_image(path, album_name)
     artist = Artist.find_or_create_by_name(artist_name)
     song = Song.where(:path => path).first
-    genre = Genre.find_or_create_by_title(got_genre.downcase)
+    genre = Genre.find_or_create_by_title(got_genre.present? ? got_genre.downcase : "")
     if !song
       album = Album.where(:artist_id => artist.id, :name => album_name).first ||
               Album.create(:artist_id => artist.id, :name => album_name, :genre => genre, :art => File.new(image))
@@ -43,7 +43,7 @@ class Library
              info.title.try(:strip),
              info.album.try(:strip)
     end
-  rescue AudioInfoError
+    rescue AudioInfoError
   end
 
 
@@ -70,6 +70,7 @@ class Library
     else
       "false"
     end
+    rescue Mp3Info::Mp3InfoError
   end
 
   def self.get_genre(path)
@@ -80,6 +81,7 @@ class Library
         "No genre"
       end
     end
+    rescue Mp3Info::Mp3InfoError
   end
 
 end
