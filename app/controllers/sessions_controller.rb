@@ -20,6 +20,7 @@ class SessionsController < ApplicationController
   def destroy
     session[:user_id] = nil
     # user.offline
+    user = current_user
     user.update_attributes(:online => false)
     redirect_to login_path, :notice => "Logged out!"
   end
