@@ -13,38 +13,10 @@
 				#header
 				#content
 					- if current_user
-						#nowPlaying
-							=@now_playing.any? ? @now_playing[0].artist.name : "N/A"
-							%br
-							= @now_playing[0] ? @now_playing[0].title : "N/A"
-							= "-"
-							= @now_playing[0] ? @now_playing[0].album.name : "N/A"
-							%br
-							- if current_user.id == 1
-								= link_to image_tag("play.png"), :play, :remote => true
-								= link_to image_tag("stop.png"), :stop, :remote => true
-								= link_to image_tag("pause.png"), :pause, :remote => true
-						#playlist
-							%h1 Afspeellijst
-							- if @songs.any?
-								%table.trackList
-									%tr
-										%th Stemmen
-										%th Artiest
-										%th Naam
-										%th Album
-										%th Controlls
-									- @songs.each do |song|
-										%tr{:class => "#{cycle("odd", "even")}"}
-											%td= "#{song.current_votes.count} x"
-											%td=link_to song.artist.name, song.artist
-											%td= song.title
-											%td= song.album.name
-											%td= link_to "+", add_path(song.id)
-							- else
-								Er staan nog geen tracks in de afspeellijst, voeg ze toe!
-						Menu ofzo
-						%ul
+						#nowPlaying= render "layouts/now_playing"
+						#playlist= render "layouts/queue"
+						
+						%ul#menu
 							%li= link_to "Artists", artists_path
 							%li= link_to "Albums", albums_path
 							%li= link_to "Songs", songs_path
@@ -61,12 +33,13 @@
 								%br
 								Status: online
 								= image_tag "online.png"
-						%h4 Favorite artists:
-						%ol
-							- user.favorite_artists.each do |artist|
-								%li= artist.name
+						.userData
+							%h4 Favorite artists:
+							%ol
+								- user.favorite_artists.each do |artist|
+									%li= artist.name
 
-						%h4 Favorite tunes:
-						%ol
-							- user.favorite_tunes.each do |tune|
-								%li=link_to (tune.title? ? tune.title : tune.id), add_path(tune.id)
+							%h4 Favorite tunes:
+							%ol
+								- user.favorite_tunes.each do |tune|
+									%li=link_to (tune.title? ? tune.title : tune.id), add_path(tune.id)

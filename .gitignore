@@ -2,3 +2,4 @@ public/system/**/*
 /log/development.log
 /public/images/albumart/
 /tmp/
+/public/uploads/

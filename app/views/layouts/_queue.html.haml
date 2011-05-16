@@ -1,0 +1,18 @@
+%h1 Afspeellijst
+- if @songs.any?
+	%table.trackList
+		%tr
+			%th Stemmen
+			%th Artiest
+			%th Naam
+			%th Album
+			%th Stem
+		- @songs.each do |song|
+			%tr{:class => "#{cycle("odd", "even")}"}
+				%td= "#{song.current_votes.count} x"
+				%td=link_to song.artist.name, song.artist
+				%td= song.title
+				%td= song.album.name
+				%td= link_to "+", add_path(song.id)
+- else
+	Er staan nog geen tracks in de afspeellijst, voeg ze toe!

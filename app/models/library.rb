@@ -13,22 +13,32 @@ class Library
   #
   # Returns nothing.
   def self.import_songs
-    fs_songs.each do |path|
-      import_song(path)
+    dir = Dir.mktmpdir
+    begin
+      fs_songs.each do |path|
+        import_song(path, dir)
+      end
+    ensure
+      FileUtils.remove_entry_secure dir
     end
   end
 
   #dit ding importeerd dat had ik geleend enzo van die gem
-  def self.import_song(path)
-    artist_name,title,album_name = fs_get_artist_and_title_and_album(path)
-    got_genre = get_genre(path)
-    image = get_tag2_image(path, album_name)
-    artist = Artist.find_or_create_by_name(artist_name)
+  def self.import_song(path, dir)
     song = Song.where(:path => path).first
-    genre = Genre.find_or_create_by_title(got_genre.present? ? got_genre.downcase : "")
+        
     if !song
-      album = Album.where(:artist_id => artist.id, :name => album_name).first ||
-              Album.create(:artist_id => artist.id, :name => album_name, :genre => genre, :art => File.new(image))
+      artist_name, title, album_name = fs_get_artist_and_title_and_album(path)
+      artist = Artist.find_or_create_by_name(artist_name)
+      genre = get_genre(path)
+      genre = Genre.find_or_create_by_title(genre.present? ? genre.downcase : "unknown")
+      
+      album = Album.where(:artist_id => artist.id, :name => album_name).first
+      if album.blank?
+        image = get_tag2_image(path, album_name, dir)
+        album = Album.create(:artist_id => artist.id, :name => album_name, :genre => genre, :art => File.new(image))
+      end
+      
       Song.create(:path => path,
                   :artist => artist,
                   :album => album,
@@ -46,29 +56,17 @@ class Library
     rescue AudioInfoError
   end
 
-
-  def self.get_tag2_image(path, alb_name)
-    FileUtils.mkdir_p("#{RAILS_ROOT}/public/images/albumart/")
-    file_path = RAILS_ROOT + "/public/images/albumart/"
-    if alb_name.present?
-      album_name = alb_name.gsub("/","-")
-    else
-      album_name = "geen album"
-    end
-    unless FileTest.exists?(file_path + album_name + ".*")
-      Mp3Info.open(path) do |mp3|
-        if mp3.tag2["APIC"]
-          text_encoding, mime_type, picture_type, description, picture_data = mp3.tag2["APIC"].unpack("c Z* c Z* a*")
-          album_art = File.new("#{RAILS_ROOT}/public/images/albumart/#{album_name}.#{mime_type.split('/').last}","w")
-          album_art.write(picture_data)
-          album_art.close
-          return album_art.path
-        else
-          image_path = RAILS_ROOT + "/public/images/album.png"
-        end
+  def self.get_tag2_image(path, album_name, dir)
+    Mp3Info.open(path) do |mp3|
+      if mp3.tag2["APIC"]
+        text_encoding, mime_type, picture_type, description, picture_data = mp3.tag2["APIC"].unpack("c Z* c Z* a*")
+        album_art = File.new("#{dir}/#{album_name}.#{mime_type.split('/').last}", "w")
+        album_art.write(picture_data)
+        album_art.close
+        return album_art.path
+      else
+        image_path = "#{Rails.root}/public/images/album.png"
       end
-    else
-      "false"
     end
     rescue Mp3Info::Mp3InfoError
   end

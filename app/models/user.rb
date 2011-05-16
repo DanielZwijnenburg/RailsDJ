@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
             :uniqueness => true,
             :format => {:with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i}
   validates_attachment_presence :avatar
-  has_attached_file :avatar, :styles => { :thumb => "70x70#", :medium => "150x150>" }
+  has_attached_file :avatar, :styles => { :thumb => "70x70#", :medium => "150x150>" }, :url => "/uploads/avatars/:id/:style.:extension"
 
   before_save :encrypt_password
 

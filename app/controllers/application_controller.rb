@@ -20,6 +20,9 @@ class ApplicationController < ActionController::Base
       format.js
     end
   end
+  
+  def refresh
+  end
 
   def play
     Client.stop
@@ -42,10 +45,11 @@ class ApplicationController < ActionController::Base
     Client.volume(params[:id])
   end
 
-private
+  private
+  
   def set_vars
     @songs = Song.queue.all
-    @now_playing = Song.where(:now_playing => true)
+    @now_playing = Song.where(:now_playing => true).first
     @users = User.online
   end
 

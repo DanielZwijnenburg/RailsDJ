@@ -15,4 +15,5 @@ Djrails::Application.routes.draw do
   get "/albums" => "albums#index", :as => "albums"
   get "/songs" => "songs#index", :as => "songs"
   get "/setups/completed/:id" => "setups#completed", :as => "setup_completed"
+  get "/refresh" => "application#refresh", :as => "refresh"
 end

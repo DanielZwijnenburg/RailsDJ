@@ -1,0 +1,13 @@
+- if @now_playing.present?
+	#nowPlayingAlbum
+		= image_tag(@now_playing.album.cover(:thumb))
+	#nowPlayingInfo
+		= @now_playing.artist.name
+		%br
+		= "#{@now_playing.title} - #{@now_playing.album.name}"
+
+- if current_user.id == 1
+	#nowPlayingButtons
+		= link_to image_tag("play.png"), :play, :remote => true
+		= link_to image_tag("stop.png"), :stop, :remote => true
+		= link_to image_tag("pause.png"), :pause, :remote => true
