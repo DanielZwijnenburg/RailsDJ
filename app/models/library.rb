@@ -26,19 +26,19 @@ class Library
   #dit ding importeerd dat had ik geleend enzo van die gem
   def self.import_song(path, dir)
     song = Song.where(:path => path).first
-        
+
     if !song
       artist_name, title, album_name = fs_get_artist_and_title_and_album(path)
       artist = Artist.find_or_create_by_name(artist_name)
       genre = get_genre(path)
       genre = Genre.find_or_create_by_title(genre.present? ? genre.downcase : "unknown")
-      
+
       album = Album.where(:artist_id => artist.id, :name => album_name).first
       if album.blank?
         image = get_tag2_image(path, album_name, dir)
         album = Album.create(:artist_id => artist.id, :name => album_name, :genre => genre, :art => File.new(image))
       end
-      
+
       Song.create(:path => path,
                   :artist => artist,
                   :album => album,
@@ -57,6 +57,7 @@ class Library
   end
 
   def self.get_tag2_image(path, album_name, dir)
+    album_name = album_name.gsub("/", "-")
     Mp3Info.open(path) do |mp3|
       if mp3.tag2["APIC"]
         text_encoding, mime_type, picture_type, description, picture_data = mp3.tag2["APIC"].unpack("c Z* c Z* a*")
